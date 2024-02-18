@@ -1,4 +1,4 @@
-name: Jekyll site CI
+name: Jekyll Site CI
 
 on:
   push:
@@ -8,13 +8,14 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@ve
+    - name: Checkout code
+      uses: actions/checkout@v2  # Use the correct version (v2 or v3)
     - name: Build the site in the jekyll/builder container
       run: |
         docker run \
-        -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-        jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
+        -v ${{ github.workspace }}:/srv/jekyll \
+        -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+        jekyll/builder:latest /bin/bash -c "chmod -R 755 /srv/jekyll && jekyll build --future"
